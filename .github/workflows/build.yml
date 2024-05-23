@@ -15,7 +15,9 @@ jobs:
 
             - name: Build with make
               run: |
-                make
+                cd /home/lume/actions_test
+                git pull
+                make clean && make
                 if [ $? -eq 0 ]; then
                   echo "Build successful"
                 else
