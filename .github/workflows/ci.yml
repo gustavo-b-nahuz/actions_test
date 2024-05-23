@@ -15,8 +15,7 @@ jobs:
         cd ~
         ./teste.sh
 
-      # Se o script retornar 1, a execução continua, senão falha
-      continue-on-error: true
+      #continue-on-error: true
 
     - name: Print Message
       if: ${{ failure() }}
