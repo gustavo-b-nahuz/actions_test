@@ -15,12 +15,14 @@ jobs:
         cd ~
         ./teste.sh
 
-      #continue-on-error: true
+    - name: Check Script Result
+      id: check_result
+      run: echo "::set-output name=script_exit_code::$?"
 
     - name: Print Message
-      if: ${{ failure() }}
-      run: echo "O script falhou."
+      if: ${{ steps.check_result.outputs.script_exit_code == 0 }}
+      run: echo "O script foi executado com sucesso."
     
     - name: Print Message
-      if: ${{ success() }}
-      run: echo "O script foi executado com sucesso."
+      if: ${{ steps.check_result.outputs.script_exit_code != 0 }}
+      run: echo "O script falhou."
