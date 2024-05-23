@@ -10,14 +10,21 @@ jobs:
             - name: Set up C++ environment
               run: sudo apt-get install -y g++ make
 
+            - name: Checkout branch
+              run: |
+                  branch=$(echo "${{ github.ref }}" | sed 's|refs/heads/||')
+                  cd /home/lume/actions_test
+                  git fetch
+                  git checkout $branch
+                  git pull
+
             - name: Build with make
               run: |
-                cd /home/lume/actions_test
-                git pull
-                make clean && make
-                if [ $? -eq 0 ]; then
-                  echo "Build successful"
-                else
-                  echo "Build failed"
-                  exit 1
-                fi
+                  cd /home/lume/actions_test
+                  make clean && make
+                  if [ $? -eq 0 ]; then
+                    echo "Build successful"
+                  else
+                    echo "Build failed"
+                    exit 1
+                  fi
