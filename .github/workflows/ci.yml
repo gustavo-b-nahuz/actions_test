@@ -15,7 +15,7 @@ jobs:
         cd ~
         ./teste.sh
 
-        continue-on-error: true
+      continue-on-error: true
 
     - name: Check Script Result
       id: check_result
