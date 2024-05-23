@@ -3,11 +3,23 @@ name: CI
 on: [push, pull_request]
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
+  run_script_and_print_message:
+    runs-on: self-hosted
 
-        steps:
-            - uses: actions/checkout@v2
+    steps:
+    - name: Run Script
+      run: |
+        # Comando para executar o script (substitua pelo comando real)
+        cd ~
+        ./teste.sh
 
-            - name: Run a one-line script
-              run: echo "Hello, world!"
+      # Se o script retornar 1, a execução continua, senão falha
+      continue-on-error: true
+
+    - name: Print Message
+      if: ${{ failure() }}
+      run: echo "O script falhou."
+    
+    - name: Print Message
+      if: ${{ success() }}
+      run: echo "O script foi executado com sucesso."
