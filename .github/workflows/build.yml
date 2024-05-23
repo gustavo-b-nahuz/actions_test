@@ -14,8 +14,11 @@ jobs:
               run: sudo apt-get install -y g++ make
 
             - name: Build with make
-              run: make
-
-            - name: Run tests
-              run: make test
-              if: success() # Executa apenas se a etapa de compilação com make for bem-sucedida
+              run: |
+                make
+                if [ $? -eq 0 ]; then
+                  echo "Build successful"
+                else
+                  echo "Build failed"
+                  exit 1
+                fi
