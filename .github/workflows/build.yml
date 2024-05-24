@@ -24,6 +24,7 @@ jobs:
               run: |
                   cd /home/lume/actions_test
                   make clean && make
+                  ./hello
                   make clean
                   if [ $? -eq 0 ]; then
                     echo "Build successful"
