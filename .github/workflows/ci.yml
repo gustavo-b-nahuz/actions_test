@@ -10,7 +10,7 @@ jobs:
     steps:
     - name: Run Script
       run: |
-        ssh -i ${{ secrets.ssh_key }} lume@dev.occ.lumerobotics.ai
-        cd lume_monitor
-        git pull
-        ./scripts/start_lume_occ
+          echo "${{ secrets.KEY }}" | base64 --decode > ~/.ssh/id_rsa
+          echo "$KEY"
+      env:
+        KEY: ${{ secrets.KEY }}
