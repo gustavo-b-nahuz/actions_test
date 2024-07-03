@@ -5,21 +5,12 @@ on:
 
 jobs:
   run_script_and_print_message:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
     - name: Run Script
       run: |
-        # Comando para executar o script (substitua pelo comando real)
-        cd ~
-        ./teste.sh
-
-      continue-on-error: true
-
-    - name: Print Message
-      if: ${{ job.status == 'success' }}
-      run: echo "O script foi executado com sucesso."
-    
-    - name: Print Message
-      if: ${{ job.status != 'success' }}
-      run: echo "O script falhou."
+        ssh -i ${{ secrets.ssh_key }} lume@dev.occ.lumerobotics.ai
+        cd lume_monitor
+        git pull
+        ./scripts/start_lume_occ
