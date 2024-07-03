@@ -17,4 +17,4 @@ jobs:
         script: |
           cd lume_monitor
           git pull https://${{ secrets.USERNAME }}:${{ secrets.TOKEN_GITHUB }}@github.com/LumeRobotics/lume_monitor.git
-          ./scripts/start_lume_occ.sh
+          ./scripts/start-lume-occ.sh
