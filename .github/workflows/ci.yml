@@ -8,12 +8,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-
-    - name: Run Script
-      run: |
-        ssh -i "${{ secrets.KEY }}" lume@dev.occ.lumerobotics.ai
-        cd lume_monitor
-        git pull
-        ./scripts/start_lume_occ
+    - name: Run Script on Remote Server
+      uses: appleboy/ssh-action@v0.1.10
+      with:
+        host: dev.occ.lumerobotics.ai
+        username: lume
+        key: ${{ secrets.KEY }}
+        script: |
+          cd lume_monitor
+          git pull
+          ./scripts/start_lume_occ
