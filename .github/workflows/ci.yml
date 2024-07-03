@@ -8,11 +8,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up SSH key
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H dev.occ.lumerobotics.ai >> ~/.ssh/known_hosts
+
     - name: Run Script
       run: |
-          ssh -i {{ secrets.KEY }} lume@dev.occ.lumerobotics.ai
+        ssh -i ~/.ssh/id_rsa lume@dev.occ.lumerobotics.ai << 'EOF'
           cd lume_monitor
           git pull
           ./scripts/start_lume_occ
-      env:
-        KEY: ${{ secrets.KEY }}
+        EOF
