@@ -16,8 +16,5 @@ jobs:
         key: ${{ secrets.KEY }}
         script: |
           cd lume_monitor
-          git config --global credential.helper store
-          git config --global user.name "${{ secrets.USERNAME }}"
-          git config --global user.password "${{ secrets.TOKEN_GITHUB }}"
-          git pull
+          git pull https://${{ secrets.USERNAME }}:${{ secrets.TOKEN_GITHUB }}@github.com/LumeRobotics/lume_monitor.git
           ./scripts/start_lume_occ.sh
