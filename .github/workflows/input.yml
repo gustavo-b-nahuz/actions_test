@@ -3,22 +3,40 @@ name: Mixed inputs
 on:
   workflow_dispatch:
     inputs:
-      name:
-        type: choice
-        description: Who to greet
-        options: 
-        - monalisa
-        - cschleiden
-      message:
-        required: true
-      use-emoji:
+      arcelormittal:
         type: boolean
-        description: Include 🎉🤣 emojis
+        description: ArcellorMittal
+      dev:
+        type: boolean
+        description: dev
+      hydro:
+        type: boolean
+        description: Hydro
+      itacel:
+        type: boolean
+        description: Hydro
+      mosaic:
+        type: boolean
+        description: Mosaic
+      mrs:
+        type: boolean
+        description: MRS
+      portocel:
+        type: boolean
+        description: Portocel
+      ype:
+        type: boolean
+        description: Ype
 
 jobs:
   greet:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Send greeting
-      run: echo "${{ github.event.inputs.message }} ${{ fromJSON('["", "🥳"]')[github.event.inputs.use-emoji == 'true'] }} ${{ github.event.inputs.name }}"
+    - name: Hello arcellor
+      if: ${{ github.event.inputs.arcelormittal == 'true' }}
+      run: echo "Arcellor é verdadeiro"
+
+    - name: Hello dev
+      if: ${{ github.event.inputs.dev == 'true' }}
+      run: echo "dev é verdadeiro"
