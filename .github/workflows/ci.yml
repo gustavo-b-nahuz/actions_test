@@ -29,7 +29,7 @@ on:
                 description: Ype
 
 jobs:
-    run_script_and_print_message:
+    connect_and_start_occ:
         runs-on: ubuntu-latest
 
         steps:
@@ -43,6 +43,7 @@ jobs:
                   script: |
                       cd lume_monitor
                       git pull https://${{ secrets.USERNAME }}:${{ secrets.TOKEN_GITHUB }}@github.com/LumeRobotics/lume_monitor.git
+                      ./scripts/remove-all-containers.sh
                       ./scripts/start-lume-occ.sh
 
             - name: Update dev
@@ -55,6 +56,7 @@ jobs:
                   script: |
                       cd lume_monitor
                       git pull https://${{ secrets.USERNAME }}:${{ secrets.TOKEN_GITHUB }}@github.com/LumeRobotics/lume_monitor.git
+                      ./scripts/remove-all-containers.sh
                       ./scripts/start-lume-occ.sh
 
             - name: Update hydro
@@ -67,6 +69,7 @@ jobs:
                   script: |
                       cd lume_monitor
                       git pull https://${{ secrets.USERNAME }}:${{ secrets.TOKEN_GITHUB }}@github.com/LumeRobotics/lume_monitor.git
+                      ./scripts/remove-all-containers.sh
                       ./scripts/start-lume-occ.sh
 
             - name: Update itacel
@@ -79,6 +82,7 @@ jobs:
                   script: |
                       cd lume_monitor
                       git pull https://${{ secrets.USERNAME }}:${{ secrets.TOKEN_GITHUB }}@github.com/LumeRobotics/lume_monitor.git
+                      ./scripts/remove-all-containers.sh
                       ./scripts/start-lume-occ.sh
 
             - name: Update mosaic
@@ -91,6 +95,7 @@ jobs:
                   script: |
                       cd lume_monitor
                       git pull https://${{ secrets.USERNAME }}:${{ secrets.TOKEN_GITHUB }}@github.com/LumeRobotics/lume_monitor.git
+                      ./scripts/remove-all-containers.sh
                       ./scripts/start-lume-occ.sh
 
             - name: Update mrs
@@ -103,6 +108,7 @@ jobs:
                   script: |
                       cd lume_monitor
                       git pull https://${{ secrets.USERNAME }}:${{ secrets.TOKEN_GITHUB }}@github.com/LumeRobotics/lume_monitor.git
+                      ./scripts/remove-all-containers.sh
                       ./scripts/start-lume-occ.sh
 
             - name: Update portocel
@@ -115,6 +121,7 @@ jobs:
                   script: |
                       cd lume_monitor
                       git pull https://${{ secrets.USERNAME }}:${{ secrets.TOKEN_GITHUB }}@github.com/LumeRobotics/lume_monitor.git
+                      ./scripts/remove-all-containers.sh
                       ./scripts/start-lume-occ.sh
 
             - name: Update ype
@@ -127,4 +134,5 @@ jobs:
                   script: |
                       cd lume_monitor
                       git pull https://${{ secrets.USERNAME }}:${{ secrets.TOKEN_GITHUB }}@github.com/LumeRobotics/lume_monitor.git
+                      ./scripts/remove-all-containers.sh
                       ./scripts/start-lume-occ.sh
