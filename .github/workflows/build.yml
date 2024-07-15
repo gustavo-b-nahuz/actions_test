@@ -12,7 +12,7 @@ jobs:
 
         steps:
             - name: Get branch name
-              run: echo "Branch name is ${{ github.ref }}"
+              run: echo "Branch name is ${{ github.head_ref }}"
               
             - name: Set up C++ environment
               run: sudo apt-get install -y g++ make
