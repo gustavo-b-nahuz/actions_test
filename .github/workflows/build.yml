@@ -21,7 +21,7 @@ jobs:
 
             - name: Build with make
               run: |
-                  cd /home/lume/actions_test
+                  ls
                   make clean && make
                   ./hello
                   make clean
