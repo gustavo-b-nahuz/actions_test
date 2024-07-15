@@ -15,13 +15,9 @@ jobs:
               run: sudo apt-get install -y g++ make
 
             - name: Checkout branch
-              run: |
-                  branch=$(echo "${{ github.ref }}" | sed 's|refs/heads/||')
-                  cd ~/actions_test
-                  git fetch
-                  git checkout $branch
-                  git checkout .
-                  git pull
+              uses: actions/checkout@v2
+              with:
+                ref: ${{ github.head_ref }}
 
             - name: Build with make
               run: |
