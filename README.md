@@ -1,6 +1,2 @@
-# actions_teste
-mensagem teste
- New content
-commit dev
-commit 2 dev
-nova linha
+# Actions Teste
+Repositório para testar github actions, ci/cd e deploy automático.
