@@ -1,0 +1,42 @@
+name: Mixed inputs
+
+on:
+  workflow_dispatch:
+    inputs:
+      arcelormittal:
+        type: boolean
+        description: ArcellorMittal
+      dev:
+        type: boolean
+        description: dev
+      hydro:
+        type: boolean
+        description: Hydro
+      itacel:
+        type: boolean
+        description: Hydro
+      mosaic:
+        type: boolean
+        description: Mosaic
+      mrs:
+        type: boolean
+        description: MRS
+      portocel:
+        type: boolean
+        description: Portocel
+      ype:
+        type: boolean
+        description: Ype
+
+jobs:
+  greet:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Hello arcellor
+      if: ${{ github.event.inputs.arcelormittal == 'true' }}
+      run: echo "Arcellor é verdadeiro"
+
+    - name: Hello dev
+      if: ${{ github.event.inputs.dev == 'true' }}
+      run: echo "dev é verdadeiro"

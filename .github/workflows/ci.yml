@@ -1,13 +1,138 @@
-name: CI
+name: Update Virtual Machines
 
-on: [push, pull_request]
+on:
+    workflow_dispatch:
+        inputs:
+            arcelormittal:
+                type: boolean
+                description: ArcellorMittal
+            dev:
+                type: boolean
+                description: dev
+            hydro:
+                type: boolean
+                description: Hydro
+            itacel:
+                type: boolean
+                description: Itacel
+            mosaic:
+                type: boolean
+                description: Mosaic
+            mrs:
+                type: boolean
+                description: MRS
+            portocel:
+                type: boolean
+                description: Portocel
+            ype:
+                type: boolean
+                description: Ype
 
 jobs:
-    build:
+    connect_and_start_occ:
         runs-on: ubuntu-latest
 
         steps:
-            - uses: actions/checkout@v2
+            - name: Update arcelormittal
+              if: ${{ github.event.inputs.arcelormittal == 'true' }}
+              uses: appleboy/ssh-action@v0.1.10
+              with:
+                  host: arcelormittal.occ.lumerobotics.ai
+                  username: lume
+                  key: ${{ secrets.KEY }}
+                  script: |
+                      cd lume_monitor
+                      git pull https://${{ secrets.USERNAME }}:${{ secrets.TOKEN_GITHUB }}@github.com/LumeRobotics/lume_monitor.git
+                      ./scripts/remove-all-containers.sh
+                      ./scripts/start-lume-occ.sh
 
-            - name: Run a one-line script
-              run: echo "Hello, world!"
+            - name: Update dev
+              if: ${{ github.event.inputs.dev == 'true' }}
+              uses: appleboy/ssh-action@v0.1.10
+              with:
+                  host: dev.occ.lumerobotics.ai
+                  username: lume
+                  key: ${{ secrets.KEY }}
+                  script: |
+                      cd lume_monitor
+                      git pull https://${{ secrets.USERNAME }}:${{ secrets.TOKEN_GITHUB }}@github.com/LumeRobotics/lume_monitor.git
+                      ./scripts/remove-all-containers.sh
+                      ./scripts/start-lume-occ.sh
+
+            - name: Update hydro
+              if: ${{ github.event.inputs.hydro == 'true' }}
+              uses: appleboy/ssh-action@v0.1.10
+              with:
+                  host: hydro.occ.lumerobotics.ai
+                  username: lume
+                  key: ${{ secrets.KEY }}
+                  script: |
+                      cd lume_monitor
+                      git pull https://${{ secrets.USERNAME }}:${{ secrets.TOKEN_GITHUB }}@github.com/LumeRobotics/lume_monitor.git
+                      ./scripts/remove-all-containers.sh
+                      ./scripts/start-lume-occ.sh
+
+            - name: Update itacel
+              if: ${{ github.event.inputs.itacel == 'true' }}
+              uses: appleboy/ssh-action@v0.1.10
+              with:
+                  host: itacel.occ.lumerobotics.ai
+                  username: lume
+                  key: ${{ secrets.KEY }}
+                  script: |
+                      cd lume_monitor
+                      git pull https://${{ secrets.USERNAME }}:${{ secrets.TOKEN_GITHUB }}@github.com/LumeRobotics/lume_monitor.git
+                      ./scripts/remove-all-containers.sh
+                      ./scripts/start-lume-occ.sh
+
+            - name: Update mosaic
+              if: ${{ github.event.inputs.mosaic == 'true' }}
+              uses: appleboy/ssh-action@v0.1.10
+              with:
+                  host: mosaic.occ.lumerobotics.ai
+                  username: lume
+                  key: ${{ secrets.KEY }}
+                  script: |
+                      cd lume_monitor
+                      git pull https://${{ secrets.USERNAME }}:${{ secrets.TOKEN_GITHUB }}@github.com/LumeRobotics/lume_monitor.git
+                      ./scripts/remove-all-containers.sh
+                      ./scripts/start-lume-occ.sh
+
+            - name: Update mrs
+              if: ${{ github.event.inputs.mrs == 'true' }}
+              uses: appleboy/ssh-action@v0.1.10
+              with:
+                  host: mrs.occ.lumerobotics.ai
+                  username: lume
+                  key: ${{ secrets.KEY }}
+                  script: |
+                      cd lume_monitor
+                      git pull https://${{ secrets.USERNAME }}:${{ secrets.TOKEN_GITHUB }}@github.com/LumeRobotics/lume_monitor.git
+                      ./scripts/remove-all-containers.sh
+                      ./scripts/start-lume-occ.sh
+
+            - name: Update portocel
+              if: ${{ github.event.inputs.portocel == 'true' }}
+              uses: appleboy/ssh-action@v0.1.10
+              with:
+                  host: portocel.occ.lumerobotics.ai
+                  username: lume
+                  key: ${{ secrets.KEY }}
+                  script: |
+                      cd lume_monitor
+                      git pull https://${{ secrets.USERNAME }}:${{ secrets.TOKEN_GITHUB }}@github.com/LumeRobotics/lume_monitor.git
+                      ./scripts/remove-all-containers.sh
+                      ./scripts/start-lume-occ.sh
+
+            - name: Update ype
+              if: ${{ github.event.inputs.ype == 'true' }}
+              uses: appleboy/ssh-action@v0.1.10
+              with:
+                  host: ype.occ.lumerobotics.ai
+                  username: lume
+                  key: ${{ secrets.KEY }}
+                  script: |
+                      cd lume_monitor
+                      git pull https://${{ secrets.USERNAME }}:${{ secrets.TOKEN_GITHUB }}@github.com/LumeRobotics/lume_monitor.git
+                      ./scripts/remove-all-containers.sh
+                      ./scripts/start-lume-occ.sh
