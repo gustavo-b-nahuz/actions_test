@@ -1,0 +1,17 @@
+name: Merge Pull Request
+
+on:
+  repository_dispatch:
+    types: [merge_pull_request]
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Merge pull request
+        run: |
+          PR_NUMBER=${{ github.event.client_payload.pr_number }}
+          gh pr merge $PR_NUMBER --merge --admin --repo ${{ github.repository }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
