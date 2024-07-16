@@ -9,6 +9,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
       - name: Merge pull request
         run: |
           PR_NUMBER=${{ github.event.client_payload.pr_number }}
