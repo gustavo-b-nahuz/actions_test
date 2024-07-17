@@ -16,12 +16,16 @@ jobs:
 
       - name: Checkout branch
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 
 
       - name: Check for CODEOWNERS change
         run: |
-          ls
-          git status
-          git diff
+          echo "Checking for changes from ${{ github.base_ref }} to ${{ github.head_ref }}"
+          if git diff --name-only origin/${{ github.base_ref }}...origin/${{ github.head_ref }} | grep '.github/CODEOWNERS'; then
+            echo "Modification to CODEOWNERS file is not allowed in this pull request."
+            exit 1
+          fi
 
       - name: Build with make
         run: |
