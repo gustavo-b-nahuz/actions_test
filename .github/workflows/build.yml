@@ -1,7 +1,6 @@
 name: C++ Build
 
 on:
-  workflow_dispatch:
   pull_request:
     branches:
       - main
@@ -11,20 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Set branch name
-        id: set-branch-name
-        run: |
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            echo "branch_name=${{ github.head_ref }}" >> $GITHUB_ENV
-          elif [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            branch=$(echo "${{ github.ref }}" | sed 's|refs/heads/||')
-            echo "branch_name=${branch}" >> $GITHUB_ENV
-          else
-            echo "branch_name=${{ github.ref }}" >> $GITHUB_ENV
-          fi
-      - name: Use branch name
-        run: echo "Branch name is ${{ env.branch_name }}"
-    
       - name: Set up C++ environment
         run: sudo apt-get install -y g++ make
 
