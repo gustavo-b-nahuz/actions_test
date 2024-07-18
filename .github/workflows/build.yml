@@ -30,6 +30,7 @@ jobs:
       - name: Build with make
         run: |
           ls
+          cd ~/actions_test
           make clean && make
           ./hello
           make clean
