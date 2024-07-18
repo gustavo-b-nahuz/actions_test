@@ -17,10 +17,11 @@ jobs:
           git restore --staged .
           git checkout .
           git fetch
-          git checkout ${{ github.head_ref }}
+          git checkout ${{ github.event_name == 'pull_request' && github.head_ref || github.ref }}
           git pull
 
       - name: Check for CODEOWNERS change
+        if: github.event_name == 'pull_request'
         run: |
           cd ~/actions_test
           echo "Checking for changes from ${{ github.base_ref }} to ${{ github.head_ref }}"
