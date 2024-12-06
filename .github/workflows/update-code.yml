@@ -17,7 +17,7 @@ jobs:
                   cd actions_test
                   git sparse-checkout add folder/test.py
                   git checkout
-                  ls -R # Listar os arquivos para depuração
+                  cp folder/test.py ../test.py # Copiar para local temporário
 
             # Clonar o repositório de destino usando actions/checkout
             - name: Checkout Destination Repository
@@ -27,10 +27,10 @@ jobs:
                   token: ${{ secrets.GITHUB_TOKEN }}
                   fetch-depth: 0
 
-            # Sincronizar os arquivos do repositório original para o de destino
+            # Sincronizar o arquivo do local temporário para o repositório de destino
             - name: Sync Files
               run: |
-                  cp actions_test/folder/test.py folder/ || echo "File not found during sync!"
+                  mv ../test.py folder/
 
             # Commit e Push para o repositório de destino
             - name: Commit and Push Changes
