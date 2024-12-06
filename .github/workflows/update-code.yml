@@ -1,42 +1,27 @@
-name: Sparse Checkout Sync
+name: Sync Files Between Repositories
 
 on:
     push:
         paths:
-            - folder/test.py
+            - folder/test.py # Arquivo monitorado no repositório de origem
 
 jobs:
     sync:
         runs-on: ubuntu-latest
 
         steps:
-            # Clonar parcialmente o repositório original com sparse checkout
-            - name: Sparse Clone Source Repository
-              run: |
-                  git clone --filter=blob:none --no-checkout --depth 1 --sparse https://github.com/gustavo-b-nahuz/actions_test.git actions_test
-                  cd actions_test
-                  git sparse-checkout add folder/test.py
-                  git checkout
-                  ls -R # Listar os arquivos para depuração
-
-            # Clonar o repositório de destino usando actions/checkout
-            - name: Checkout Destination Repository
+            # Checkout do repositório de origem
+            - name: Checkout Source Repository
               uses: actions/checkout@v3
               with:
-                  repository: gustavo-b-nahuz/playwright-test
-                  token: ${{ secrets.GITHUB_TOKEN }}
                   fetch-depth: 0
 
-            # Sincronizar os arquivos do repositório original para o de destino
-            - name: Sync Files
-              run: |
-                  cp actions_test/folder/test.py folder/ || echo "File not found during sync!"
-
-            # Commit e Push para o repositório de destino
-            - name: Commit and Push Changes
-              run: |
-                  git config user.name "GitHub Actions"
-                  git config user.email "actions@github.com"
-                  git add folder/test.py
-                  git diff-index --quiet HEAD || git commit -m "Sync scripts from source repository"
-                  git push
+            # Sincronizar o arquivo para o repositório de destino
+            - name: Sync File to Destination Repository
+              uses: repo-sync/repo-file-sync-action@v2
+              with:
+                  source_file: folder/test.py
+                  destination_repo: gustavo-b-nahuz/playwright-test
+                  destination_branch: main
+                  destination_file: folder/test.py
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
