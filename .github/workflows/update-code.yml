@@ -17,6 +17,7 @@ jobs:
                   cd actions_test
                   git sparse-checkout add folder/test.py
                   git checkout
+                  ls -R # Listar os arquivos para depuração
 
             # Clonar o repositório de destino usando actions/checkout
             - name: Checkout Destination Repository
@@ -29,7 +30,7 @@ jobs:
             # Sincronizar os arquivos do repositório original para o de destino
             - name: Sync Files
               run: |
-                  cp actions_test/folder/test.py folder/
+                  cp actions_test/folder/test.py folder/ || echo "File not found during sync!"
 
             # Commit e Push para o repositório de destino
             - name: Commit and Push Changes
