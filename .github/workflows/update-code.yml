@@ -13,8 +13,8 @@ jobs:
             # Clonar parcialmente o repositório original com sparse checkout
             - name: Sparse Clone Source Repository
               run: |
-                  git clone --filter=blob:none --no-checkout --depth 1 --sparse https://github.com/gustavo-b-nahuz/actions_test.git source-repo
-                  cd source-repo
+                  git clone --filter=blob:none --no-checkout --depth 1 --sparse https://github.com/gustavo-b-nahuz/actions_test.git actions_test
+                  cd actions_test
                   git sparse-checkout add folder/test.py
                   git checkout
 
@@ -29,7 +29,7 @@ jobs:
             # Sincronizar os arquivos do repositório original para o de destino
             - name: Sync Files
               run: |
-                  cp source-repo/folder/test.py folder/
+                  cp actions_test/folder/test.py folder/
 
             # Commit e Push para o repositório de destino
             - name: Commit and Push Changes
