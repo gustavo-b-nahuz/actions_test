@@ -17,7 +17,7 @@ jobs:
                   cd actions_test
                   git sparse-checkout add folder/test.py
                   git checkout
-                  cp $PWD/folder/test.py $GITHUB_WORKSPACE/test.py # Copiar para um local temporário absoluto
+                  cp folder/test.py $GITHUB_WORKSPACE/temp_test.py # Salvar arquivo temporário
 
             # Clonar o repositório de destino usando actions/checkout
             - name: Checkout Destination Repository
@@ -27,11 +27,11 @@ jobs:
                   token: ${{ secrets.GITHUB_TOKEN }}
                   fetch-depth: 0
 
-            # Sincronizar o arquivo do local temporário para o repositório de destino
+            # Mover o arquivo temporário para o repositório de destino
             - name: Sync Files
               run: |
-                  mkdir -p folder # Cria o diretório caso não exista
-                  mv $GITHUB_WORKSPACE/test.py folder/
+                  mkdir -p folder
+                  mv $GITHUB_WORKSPACE/temp_test.py folder/test.py
 
             # Commit e Push para o repositório de destino
             - name: Commit and Push Changes
