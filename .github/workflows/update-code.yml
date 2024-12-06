@@ -1,0 +1,41 @@
+name: Sparse Checkout Sync
+
+on:
+    push:
+        paths:
+            - folder/test.py
+
+jobs:
+    sync:
+        runs-on: ubuntu-latest
+
+        steps:
+            # Clonar parcialmente o repositório original com sparse checkout
+            - name: Sparse Clone Source Repository
+              run: |
+                  git clone --filter=blob:none --no-checkout --depth 1 --sparse https://github.com/gustavo-b-nahuz/actions_test.git source-repo
+                  cd source-repo
+                  git sparse-checkout add folder/test.py
+                  git checkout
+
+            # Clonar o repositório de destino usando actions/checkout
+            - name: Checkout Destination Repository
+              uses: actions/checkout@v3
+              with:
+                  repository: gustavo-b-nahuz/playwright-test
+                  token: ${{ secrets.GITHUB_TOKEN }}
+                  fetch-depth: 0
+
+            # Sincronizar os arquivos do repositório original para o de destino
+            - name: Sync Files
+              run: |
+                  cp source-repo/folder/test.py folder/
+
+            # Commit e Push para o repositório de destino
+            - name: Commit and Push Changes
+              run: |
+                  git config user.name "GitHub Actions"
+                  git config user.email "actions@github.com"
+                  git add folder/test.py
+                  git diff-index --quiet HEAD || git commit -m "Sync scripts from source repository"
+                  git push
