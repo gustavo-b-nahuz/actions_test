@@ -37,9 +37,9 @@ jobs:
             # Commit and push changes to the target repository
             - name: Commit and Push to lume_monitor
               env:
-                  PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+                  PAT_TOKEN: ${{ secrets.TOKEN_GITHUB }}
               run: |
                   cd playwright-test
                   git add test.py
                   git commit -m "Sync: Updated files from actions_test repository"
-                  git push https://$PAT_TOKEN@github.com/gustavo-b-nahuz/playwright-test.git
+                  git push https://$TOKEN_GITHUB@github.com/gustavo-b-nahuz/playwright-test.git
