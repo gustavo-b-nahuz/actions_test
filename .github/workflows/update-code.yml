@@ -42,4 +42,4 @@ jobs:
                   cd playwright-test
                   git add test.py
                   git commit -m "Sync: Updated files from actions_test repository"
-                  git push https://$TOKEN_GITHUB@github.com/gustavo-b-nahuz/playwright-test.git
+                  git push https://gustavo-b-nahuz:${{ secrets.TOKEN_GITHUB }}@github.com/gustavo-b-nahuz/playwright-test.git
