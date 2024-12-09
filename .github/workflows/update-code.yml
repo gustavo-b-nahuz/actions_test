@@ -3,7 +3,7 @@ name: Test Workflow
 on:
     push:
         paths:
-            - folder/test.py
+            - actions_test/folder/test.py
 
 jobs:
     test:
