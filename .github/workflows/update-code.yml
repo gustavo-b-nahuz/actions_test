@@ -1,40 +1,14 @@
-name: Sync Scripts to lume_monitor
+name: Test Workflow
 
 on:
     push:
         paths:
             - "actions_test/folder/test.py"
-    workflow_dispatch:
 
 jobs:
-    sync-files:
+    test:
         runs-on: ubuntu-latest
 
         steps:
-            # Check out the astro repository
-            - name: Checkout astro repository
-              uses: actions/checkout@v3
-
-            # Configure Git
-            - name: Configure Git
-              run: |
-                  git config --global user.name "gustavo-b-nahuz"
-                  git config --global user.email "gustavobrunoronahuz@gmail.com"
-
-            # Clone the lume_monitor repository
-            - name: Clone lume_monitor repository
-              run: |
-                  git clone https://github.com/gustavo-b-nahuz/actions_test.git
-
-            # Copy updated files
-            - name: Copy updated files
-              run: |
-                  cp actions_test/folder/test.py playwright-test/
-
-            # Commit and push changes to lume_monitor
-            - name: Commit and Push to lume_monitor
-              run: |
-                  cd lume_monitor
-                  git add playwright-test/test.py
-                  git commit -m "Sync: Updated files from astro repository"
-                  git push https://gustavo-b-nahuz:${{ secrets.GITHUB_TOKEN }}@github.com/gustavo-b-nahuz/playwright-test.git
+            - name: Test Trigger
+              run: echo "Workflow triggered successfully!"
