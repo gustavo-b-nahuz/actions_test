@@ -1,4 +1,4 @@
-name: Sync Scripts to lume_monitor
+name: Sync Specific File to lume_monitor
 
 on:
     push:
@@ -14,10 +14,6 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            # Check out the current repository
-            - name: Checkout current repository
-              uses: actions/checkout@v3
-
             # Configure Git
             - name: Configure Git
               run: |
@@ -29,10 +25,10 @@ jobs:
               run: |
                   git clone https://github.com/gustavo-b-nahuz/playwright-test.git
 
-            # Copy updated files
-            - name: Copy updated files
+            # Download the specific file from the source repository
+            - name: Download specific file
               run: |
-                  cp folder/test.py playwright-test/
+                  curl -o playwright-test/test.py https://raw.githubusercontent.com/gustavo-b-nahuz/actions_test/main/folder/test.py
 
             # Commit and push changes to the target repository
             - name: Commit and Push to lume_monitor
@@ -41,5 +37,5 @@ jobs:
               run: |
                   cd playwright-test
                   git add test.py
-                  git commit -m "Sync: Updated files from actions_test repository"
+                  git commit -m "Sync: Updated test.py from actions_test repository"
                   git push https://gustavo-b-nahuz:${{ secrets.TOKEN_GITHUB }}@github.com/gustavo-b-nahuz/playwright-test.git
