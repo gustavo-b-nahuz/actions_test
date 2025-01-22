@@ -4,6 +4,7 @@ on:
     push:
         paths:
             - folder/test.py
+            - folder/test2.py
     workflow_dispatch:
 
 permissions:
@@ -28,7 +29,8 @@ jobs:
             # Download the specific file from the source repository
             - name: Download specific file
               run: |
-                  curl -o playwright-test/test.py https://raw.githubusercontent.com/gustavo-b-nahuz/actions_test/main/folder/test.py
+                  curl -o playwright-test/test.py  https://raw.githubusercontent.com/gustavo-b-nahuz/actions_test/main/folder/test.py
+                  curl -o playwright-test/test2.py https://raw.githubusercontent.com/gustavo-b-nahuz/actions_test/main/folder/test2.py
 
             # Commit and push changes to the target repository
             - name: Commit and Push to playwright-test
@@ -36,6 +38,6 @@ jobs:
                   PAT_TOKEN: ${{ secrets.TOKEN_GITHUB }}
               run: |
                   cd playwright-test
-                  git add test.py
-                  git commit -m "Sync: Updated test.py from actions_test repository"
+                  git add test.py test2.py
+                  git commit -m "Sync: Updated test.py and test2.py from actions_test repository"
                   git push https://gustavo-b-nahuz:${{ secrets.TOKEN_GITHUB }}@github.com/gustavo-b-nahuz/playwright-test.git
