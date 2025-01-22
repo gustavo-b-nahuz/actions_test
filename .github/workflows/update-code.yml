@@ -1,4 +1,4 @@
-name: Sync Specific File to lume_monitor
+name: Sync Specific File to playwright-test
 
 on:
     push:
@@ -21,7 +21,7 @@ jobs:
                   git config --global user.email "gustavobrunoronahuz@gmail.com"
 
             # Clone the target repository
-            - name: Clone lume_monitor repository
+            - name: Clone playwright-test repository
               run: |
                   git clone https://github.com/gustavo-b-nahuz/playwright-test.git
 
@@ -31,7 +31,7 @@ jobs:
                   curl -o playwright-test/test.py https://raw.githubusercontent.com/gustavo-b-nahuz/actions_test/main/folder/test.py
 
             # Commit and push changes to the target repository
-            - name: Commit and Push to lume_monitor
+            - name: Commit and Push to playwright-test
               env:
                   PAT_TOKEN: ${{ secrets.TOKEN_GITHUB }}
               run: |
