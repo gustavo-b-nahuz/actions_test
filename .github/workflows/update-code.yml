@@ -5,6 +5,12 @@ on:
         paths:
             - folder/test.py
             - folder/test2.py
+    pull_request:
+        branches:
+            - main
+        paths:
+            - folder/test1.py
+            - folder/test2.py
     workflow_dispatch:
 
 permissions:
