@@ -6,10 +6,9 @@ on:
             - folder/test.py
             - folder/test2.py
     pull_request:
-        branches:
-            - main
+        types: [closed] # Runs only when PR is merged
         paths:
-            - folder/test1.py
+            - folder/test.py
             - folder/test2.py
     workflow_dispatch:
 
@@ -31,9 +30,11 @@ jobs:
             - name: Clone playwright-test repository
               run: |
                   git clone https://github.com/gustavo-b-nahuz/playwright-test.git
+                  cd playwright-test
+                  git checkout main  # Ensure we're on the correct branch
 
             # Download the specific file from the source repository
-            - name: Download specific file
+            - name: Download specific files
               run: |
                   curl -o playwright-test/test.py  https://raw.githubusercontent.com/gustavo-b-nahuz/actions_test/main/folder/test.py
                   curl -o playwright-test/test2.py https://raw.githubusercontent.com/gustavo-b-nahuz/actions_test/main/folder/test2.py
