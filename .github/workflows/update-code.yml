@@ -23,8 +23,8 @@ jobs:
             # Configure Git
             - name: Configure Git
               run: |
-                  git config --global user.name "gustavo-b-nahuz"
-                  git config --global user.email "gustavobrunoronahuz@gmail.com"
+                  git config --global user.name "github-actions[bot]"
+                  git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
             # Clone the target repository
             - name: Clone playwright-test repository
