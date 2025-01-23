@@ -1,1 +1,1 @@
-print("Hello Playwright from dev")
+print("Teste new author")
