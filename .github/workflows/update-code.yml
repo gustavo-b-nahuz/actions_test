@@ -1,4 +1,4 @@
-name: Sync Specific File to playwright-test
+name: Sync Specific Files to playwright-test (via API)
 
 on:
     push:
@@ -6,45 +6,56 @@ on:
             - folder/test.py
             - folder/test2.py
     pull_request:
-        types: [closed] # Runs only when PR is merged
+        types: [closed]
         paths:
             - folder/test.py
             - folder/test2.py
     workflow_dispatch:
 
 permissions:
-    contents: write
+    contents: read # leitura basta; a escrita será pelo token de secret
 
 jobs:
     sync-files:
         runs-on: ubuntu-latest
 
         steps:
-            # Configure Git
-            - name: Configure Git
-              run: |
-                  git config --global user.name "github-actions[bot]"
-                  git config --global user.email "github-actions[bot]@users.noreply.github.com"
+            - name: Install GitHub CLI
+              uses: cli/cli@v2 # garante versão estável do gh
 
-            # Clone the target repository
-            - name: Clone playwright-test repository
-              run: |
-                  git clone https://github.com/gustavo-b-nahuz/playwright-test.git
-                  cd playwright-test
-                  git checkout main  # Ensure we're on the correct branch
-
-            # Download the specific file from the source repository
-            - name: Download specific files
-              run: |
-                  curl -o playwright-test/test.py  https://raw.githubusercontent.com/gustavo-b-nahuz/actions_test/main/folder/test.py
-                  curl -o playwright-test/test2.py https://raw.githubusercontent.com/gustavo-b-nahuz/actions_test/main/folder/test2.py
-
-            # Commit and push changes to the target repository
-            - name: Commit and Push to playwright-test
+            - name: Authenticate gh cli
               env:
-                  PAT_TOKEN: ${{ secrets.TOKEN_GITHUB }}
+                  GH_TOKEN: ${{ secrets.TOKEN_GITHUB }}
+              run: gh auth setup-git --hostname github.com
+
+            - name: Update files in playwright-test via REST API
+              env:
+                  GH_TOKEN: ${{ secrets.TOKEN_GITHUB }}
               run: |
-                  cd playwright-test
-                  git add test.py test2.py
-                  git commit -m "Sync: Updated test.py and test2.py from actions_test repository"
-                  git push https://gustavo-b-nahuz:${{ secrets.TOKEN_GITHUB }}@github.com/gustavo-b-nahuz/playwright-test.git
+                  set -euo pipefail
+
+                  TARGET_REPO="gustavo-b-nahuz/playwright-test"
+                  BRANCH="main"
+
+                  declare -a FILES=("test.py" "test2.py")
+
+                  for FILE in "${FILES[@]}"; do
+                    # 1. Baixa o conteúdo mais recente do arquivo-fonte
+                    SRC_RAW="https://raw.githubusercontent.com/gustavo-b-nahuz/actions_test/main/folder/${FILE}"
+                    CONTENT_BASE64=$(curl -sSL "$SRC_RAW" | base64 -w0)
+
+                    # 2. Descobre o SHA atual do arquivo no repositório-destino (se existir)
+                    SHA=""
+                    if gh api repos/${TARGET_REPO}/contents/${FILE}?ref=${BRANCH} --jq .sha > /dev/null 2>&1; then
+                      SHA=$(gh api repos/${TARGET_REPO}/contents/${FILE}?ref=${BRANCH} --jq .sha)
+                    fi
+
+                    # 3. Envia PUT /contents – cria ou atualiza
+                    echo "⤴️  Enviando ${FILE} para ${TARGET_REPO} (${BRANCH})"
+                    gh api repos/${TARGET_REPO}/contents/${FILE} \
+                      --method PUT \
+                      -f message="Sync: $( [ -z "$SHA" ] && echo 'add' || echo 'update' ) ${FILE} from actions_test" \
+                      -f content="$CONTENT_BASE64" \
+                      -f branch="$BRANCH" \
+                      $( [ -n "$SHA" ] && echo -f sha="$SHA" )
+                  done
