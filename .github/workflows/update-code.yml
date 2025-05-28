@@ -20,8 +20,9 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - name: Install GitHub CLI
-              uses: cli/cli@v2 # garante versão estável do gh
+            - name: Ensure GitHub CLI is installed
+              run: |
+                  gh --version || (sudo apt update && sudo apt install gh -y)
 
             - name: Authenticate gh cli
               env:
