@@ -1,1 +1,1 @@
-print("teste2 merge!")
+print("testando novo script")
