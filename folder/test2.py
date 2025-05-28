@@ -1,1 +1,1 @@
-print("testando novo script")
+print("testando novo script corrigido")
